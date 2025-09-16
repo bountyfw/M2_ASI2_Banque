@@ -76,6 +76,29 @@ public class BanqueApplication
             typesProduits=typeProduitRepository.findAll();
             produitBancaires=produitBancaireRepository.findAll();
             System.out.println(produitBancaires);
+
+            produitBancaires=produitBancaireRepository.findAll();
+            System.out.println(produitBancaires);
+            tp3=typeProduitRepository.findById(tp3.getId()).orElseThrow();
+            typeProduitRepository.delete(tp3);
+            if (typeProduitRepository.existsById(tp3.getId())) {
+                System.out.println("tp3 est toujours dans la base");
+            }
+            else {
+                System.out.println("tp3 a été supprimé de la base");
+            }
+            if (produitBancaireRepository.existsById(pb1.getId())) {
+                System.out.println("pb1 est toujours ans la base");
+            }
+            else {
+                System.out.println("pb1 a été supprimé de la base");
+            }
+            if (produitBancaireRepository.existsById(pb3.getId())) {
+                System.out.println("pb3 est toujours ans la base");
+            }
+            else {
+                System.out.println("pb3 a été supprimé de la base");
+            }
         };
     }
 }
