@@ -106,4 +106,16 @@ public class TypeProduit {
     public int hashCode() {
         return Objects.hash(tauxInteretAgios, intitule, cotisationCarte);
     }
+
+    @PreRemove
+    private void gererLiens()
+    {
+        // Pour casser le lien avec les types de produits
+        // A utiliser dans le cas d'une cardinalité minimale 0
+        for (ProduitBancaire pb : produitsBancaires)
+        {
+            pb.setTypeProduit(null);
+        }
+        produitsBancaires.clear();
+    }
 }

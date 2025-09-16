@@ -77,27 +77,26 @@ public class BanqueApplication
             produitBancaires=produitBancaireRepository.findAll();
             System.out.println(produitBancaires);
 
-            produitBancaires=produitBancaireRepository.findAll();
-            System.out.println(produitBancaires);
-            tp3=typeProduitRepository.findById(tp3.getId()).orElseThrow();
-            typeProduitRepository.delete(tp3);
-            if (typeProduitRepository.existsById(tp3.getId())) {
+            pb1= (ProduitBancaire) produitBancaireRepository.findById(pb1.getId()).orElseThrow();
+            produitBancaireRepository.deleteById(pb1.getId());
+            if (typeProduitRepository.existsById(tp3.getId())){
                 System.out.println("tp3 est toujours dans la base");
             }
-            else {
-                System.out.println("tp3 a été supprimé de la base");
+            else{
+                System.out.println("tp3 n''existe plus");
             }
             if (produitBancaireRepository.existsById(pb1.getId())) {
-                System.out.println("pb1 est toujours ans la base");
+                System.out.println("pb1 est toujours dans la base");
             }
             else {
-                System.out.println("pb1 a été supprimé de la base");
+                System.out.println("pb1 n''existe plus");
             }
+
             if (produitBancaireRepository.existsById(pb3.getId())) {
-                System.out.println("pb3 est toujours ans la base");
+                System.out.println("pb3 est toujours dans la base");
             }
             else {
-                System.out.println("pb3 a été supprimé de la base");
+                System.out.println("pb3 n''existe plus");
             }
         };
     }
