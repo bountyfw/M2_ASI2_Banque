@@ -1,8 +1,6 @@
 package com.banque.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity(name = "PersonneMorale")
 @Table(name = "personne_morale")
@@ -13,12 +11,27 @@ public class PersonneMorale extends Personne {
     @Column(name = "raison_sociale", nullable = false, columnDefinition = "TEXT")
     private String raisonSociale;
 
+    // Relation ManyToOne avec TypePersonneMorale
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "type_personne_morale_id")
+    private TypePersonneMorale typePersonneMorale;
+
     public PersonneMorale() {}
 
     public PersonneMorale(String adresse, String SIRET, String raisonSociale) {
         super(adresse);
         this.SIRET = SIRET;
         this.raisonSociale = raisonSociale;
+    }
+
+    public PersonneMorale(String adresse, String SIRET, String raisonSociale, TypePersonneMorale typePersonneMorale) {
+        super(adresse);
+        this.SIRET = SIRET;
+        this.raisonSociale = raisonSociale;
+        this.typePersonneMorale = typePersonneMorale;
+        if (typePersonneMorale != null) {
+            typePersonneMorale.getPersonnesMorales().add(this);
+        }
     }
 
     public String getSIRET() {
@@ -37,6 +50,14 @@ public class PersonneMorale extends Personne {
         this.raisonSociale = raisonSociale;
     }
 
+    public TypePersonneMorale getTypePersonneMorale() {
+        return typePersonneMorale;
+    }
+
+    public void setTypePersonneMorale(TypePersonneMorale typePersonneMorale) {
+        this.typePersonneMorale = typePersonneMorale;
+    }
+
     @Override
     public String toString() {
         return "\nPersonneMorale{" +
@@ -44,6 +65,7 @@ public class PersonneMorale extends Personne {
                 ", \nSIRET='" + SIRET + '\'' +
                 ", \nraisonSociale='" + raisonSociale + '\'' +
                 ", \nadresse='" + adresse + '\'' +
+                ", \ntypePersonneMorale=" + typePersonneMorale +
                 "}\n";
     }
 

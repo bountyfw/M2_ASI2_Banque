@@ -3,10 +3,12 @@ package com.banque;
 import com.banque.model.PersonneMorale;
 import com.banque.model.PersonnePhysique;
 import com.banque.model.ProduitBancaire;
+import com.banque.model.TypePersonneMorale;
 import com.banque.model.TypeProduit;
 import com.banque.repository.PersonneMoraleRepository;
 import com.banque.repository.PersonnePhysiqueRepository;
 import com.banque.repository.ProduitBancaireRepository;
+import com.banque.repository.TypePersonneMoraleRepository;
 import com.banque.repository.TypeProduitRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,7 +31,7 @@ public class BanqueApplication
     }
 
     @Bean
-    CommandLineRunner testerBackend(TypeProduitRepository typeProduitRepository, PersonneMoraleRepository personneMoraleRepository, PersonnePhysiqueRepository personnePhysiqueRepository, ProduitBancaireRepository produitBancaireRepository)
+    CommandLineRunner testerBackend(TypeProduitRepository typeProduitRepository, PersonneMoraleRepository personneMoraleRepository, PersonnePhysiqueRepository personnePhysiqueRepository, ProduitBancaireRepository produitBancaireRepository, TypePersonneMoraleRepository typePersonneMoraleRepository)
     {
         return args -> {
             //////////////////// Code précédent
@@ -45,6 +47,28 @@ public class BanqueApplication
             personneMoraleRepository.save(pm3);
             // Affichage du résultat
             System.out.println(personneMoraleRepository.findAll());
+            
+            // Test de TypePersonneMorale
+            System.out.println("\n=== Test TypePersonneMorale ===");
+            TypePersonneMorale typePM1 = new TypePersonneMorale("SARL", "Société à Responsabilité Limitée");
+            TypePersonneMorale typePM2 = new TypePersonneMorale("SAS", "Société par Actions Simplifiée");
+            TypePersonneMorale typePM3 = new TypePersonneMorale("EURL", "Entreprise Unipersonnelle à Responsabilité Limitée");
+            
+            typePersonneMoraleRepository.save(typePM1);
+            typePersonneMoraleRepository.save(typePM2);
+            typePersonneMoraleRepository.save(typePM3);
+            
+            System.out.println("Types de personnes morales créés :");
+            System.out.println(typePersonneMoraleRepository.findAll());
+            
+            // Test de la relation avec PersonneMorale
+            System.out.println("\n=== Test relation PersonneMorale - TypePersonneMorale ===");
+            PersonneMorale pmAvecType = new PersonneMorale("456 Avenue des Champs", "SIRET4", "Ma SARL Test", typePM1);
+            personneMoraleRepository.save(pmAvecType);
+            
+            System.out.println("Personne morale avec type :");
+            System.out.println(pmAvecType);
+            
             // Ajout de personnes physiques
             PersonnePhysique pp1 = new PersonnePhysique("19 rue des fleurs, 80000 Amiens", "Dupont", "Jean");
             personnePhysiqueRepository.save(pp1);
