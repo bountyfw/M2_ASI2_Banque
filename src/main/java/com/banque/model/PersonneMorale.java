@@ -58,6 +58,13 @@ public class PersonneMorale extends Personne {
         this.typePersonneMorale = typePersonneMorale;
     }
 
+    @PreRemove
+    private void gererLiensPM()
+    {
+        if (typePersonneMorale!=null)typePersonneMorale.getPersonnesMorales().remove(this);
+        typePersonneMorale=null;
+    }
+
     @Override
     public String toString() {
         return "\nPersonneMorale{" +

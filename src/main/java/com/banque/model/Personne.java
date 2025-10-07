@@ -85,6 +85,18 @@ public abstract class Personne {
         // => test if
         if (clientBancaire.getPersonnes().contains(this)) clientBancaire.getPersonnes().remove(this);
     }
+
+    @PreRemove
+    protected void gererLiens()
+    {
+        for (ClientBancaire cb : clientsBancaires)
+        {
+            if (cb!=null)
+                cb.removePersonne(this);
+        }
+        clientsBancaires.clear();
+    }
+
     @Override
     public String toString() {
         return "Personne{" + "Adresse='" + adresse + '\'' + '}';

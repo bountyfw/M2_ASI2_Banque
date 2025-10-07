@@ -51,6 +51,16 @@ public class ClientBancaire {
         personnes.remove(personne);
         personne.getClientsBancaires().remove(this);
     }
+
+    @PreRemove
+    private void gererLiens()
+    {
+        for (Personne personne : this.personnes) {
+            personne.getClientsBancaires().remove(this);
+        }
+        this.personnes.clear();
+    }
+
     @Override
     public String toString() {
         return "\nClientBancaire{" +
